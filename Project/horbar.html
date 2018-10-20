@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>http://stackoverflow.com/questions/32510101/d3-why-is-enter-selection-not-showing-any-transition-for-a-donut-chart?noredirect=1#comment52896340_32510101</title>
+    
+    <!-- <style>
+        .chart text {
+            font: 16px sans-serif;
+        }
+
+        .chart {
+            position: relative;
+           
+        }
+    </style> -->
+</head>
+<body>
+<canvas id="bar-chart-horizontal" width="800" height="450"></canvas>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<script src="chart.js"></script>
+<script>
+new Chart(document.getElementById("bar-chart-horizontal"), {
+    type: 'horizontalBar',
+    data: {
+      labels: ["Fed to hungry people", "Fed to animals", "Industrial use", "Composted", "Landfilled"],
+      datasets: [
+        {
+          label: "Population (millions)",
+          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+          data: [621,125,7200,1570,29154]
+        }
+      ]
+    },
+    options: {
+      legend: { display: false },
+      title: {
+        display: true,
+        text: 'Food waste management(2014)'
+      }
+    }
+});
+
+
+</script>
+</body>
+</html>

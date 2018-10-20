@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>FoodWasteProject</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+  <script src="https://gitcdn.xyz/repo/cool-Blue/d3-lib/master/transitions/end-all/endAll.js"></script>
+  <script src="http://d3js.org/d3.v2.min.js"></script>
+  <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-MfvZlkHCEqatNoGiOXveE8FIwMzZg4W85qfrfIFBfYc= sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous"> -->
+  <link rel="stylesheet" type="text/css" href="lincss.css">
+  <script src="leastsquare.js"></script>
+  <script src="linjs.js"></script>
+    
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+  <script src="chart.js"></script>
+    <style>
+    
+    @media screen and (min-width: 481px) {
+    #side {
+    
+    width:100%;
+    }
+    .chart text {
+            font: 18px sans-serif;
+            fill:white;
+        }
+
+        .chart {
+            position: relative;
+           
+        }
+
+
+    </style>
+  </head>
+  <body style="background:gray">
+    <div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin-bottom: 0%;margin-top: 0%">
+      <a class="btn btn-success" href="foodlossproject.html" style="color:white;font:bold ;font-family:Georgia;font-size:15px;text-align: center;border-radius:5px">Home</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto" >
+          
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Dashboards
+            </a>
+            
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="Dashboard1.html">Dashboard1</a>
+              <a class="dropdown-item" href="Dashboard2.html">Dashboard2</a>
+              <a class="dropdown-item" href="Dashboard3.html">Dashboard3</a>
+              <a class="dropdown-item" href="Conclusion.html">Conclusion</a></div>
+              
+              
+            </li>
+            
+            <!-- <li class="nav-item active">
+               -->
+              <!-- <a class="nav-link" href="Dashboard/comparison.html" >Comparison <span class="sr-only">(current)</span></a> --> 
+            <!-- </li> -->
+            <li class="nav-item active">
+              <a class="nav-link" href="Dashboard/data.html">Data<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="https://github.com/dhanup369/Projects/blob/master/Openweathermap_api.ipynb"><span class="sr-only">(current)</span>Code</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      
+      <img src="hero-3.png" alt="mainpicture" style="width:70%;height:400px;padding-left:10%">
+         
+      
+      
+        <div class="row" style="padding:2%;background:black">
+          <div class = "col-xs-4 col-sm-12 col-lg-5 col-md-12"  >
+            
+              <p style="color:gray;font-family:Georgia;font-size: 40px">Food Waste Management</p> 
+              
+                <svg class="chart"></svg>
+              </div>
+         
+          <div class="col-xs-4 col-sm-12 col-lg-4 col-md-12" style="margin:2%">
+                <p>  </p>
+
+          </div>
+              </div>
+        <div class="row" style="padding:2%;background:black">
+          <div class = "col-xs-4 col-sm-12 col-lg-5 col-md-12"  >
+            <img class="mr-3" src="pyramid.png" alt="Pyramid" style="width:500px;height:400px ">
+             </div>
+              
+                
+         
+          <div class="col-xs-4 col-sm-12 col-lg-6 col-md-12" style="margin:2%">
+                
+            <canvas id="bar-chart-horizontal" width="1600" height="700"></canvas>
+            </div>
+              
+           </div>   
+              
+              <script>
+new Chart(document.getElementById("bar-chart-horizontal"), {
+    type: 'horizontalBar',
+    data: {
+      labels: ["Fed to hungry people", "Fed to animals", "Industrial use", "Composted", "Landfilled"],
+      datasets: [
+        {
+          
+          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+          data: [621*2,125*2,7200*2,1570*2,29154*2]
+        }
+      ]
+    },
+    options: {
+      legend: { display: false },
+      title: {
+        display: true,
+        text: 'Food waste management(2014)'
+      }
+    }
+});
+
+
+</script>     
+        <script>
+    var crm = (function() {
+        var prevData1 = [];
+        var prevData2 = [];
+        return function crm(f) {
+        
+            oldPieData1 = JSON.parse(JSON.stringify(prevData1));
+            Data = f([{name: 'Farms',  value: 15.9},
+                {name: 'Food processing',  value:1.6},
+                {name: 'Grocery stores & Restaraunts', value: 39.7},
+                {name: 'Residential',  value:42.8}
+            ])
+           
+        
+        }
+    })();
+    pieTween = function(d, i) {
+        var s0;
+        var e0;
+        if(oldPieData[i]){
+            s0 = oldPieData[i].startAngle;
+            e0 = oldPieData[i].endAngle;
+        } else if (!(oldPieData[i]) && oldPieData[i-1]) {
+            s0 = oldPieData[i-1].endAngle;
+            e0 = oldPieData[i-1].endAngle;
+        } else if(!(oldPieData[i-1]) && oldPieData.length > 0){
+            s0 = oldPieData[oldPieData.length-1].endAngle;
+            e0 = oldPieData[oldPieData.length-1].endAngle;
+        } else {
+            s0 = 0;
+            e0 = 0;
+        }
+        var i = d3.interpolate({startAngle: s0, endAngle: e0}, {startAngle: d.startAngle, endAngle: d.endAngle});
+        return function(t) {
+            var b = i(t);
+            return arc(b);
+        };
+    };
+    var pie = Math.PI * 2;
+    var w =500;
+        h = 500;
+    var duration = 4000;
+    var chart = d3.select('.chart')
+            .attr('width', w)
+            .attr('height',h)
+            .append('g')
+            .attr('transform', 'translate('+w/2+','+ h/2 + ')'),
+        pieChart = d3.layout.pie()
+            .value(function(d){ return d.value; })
+            .sort(null),
+        oldPieData = [],
+
+        groups = chart.append ("g")
+            .attr("class", "groups"),
+    // group at the center of donut
+        center_group = chart.append('g')
+            .attr("class", "center_group")
+            .append('text')
+            .attr({'text-anchor': 'middle', dy: "0.35em"});
+            createPieChart = function(data){
+        var radius = 200, innerRadius = radius - 100;
+        var pieData,
+            color = d3.scale.ordinal()
+                .range(["#3e95cd", "#8e5ea2","#3cba9f","#c45850"])
+                .domain(data.map(function(d){return d.name}));
+
+        // displaying total calls at the center
+        center_group.text("Food waste Generation");
+        // center_group.text(d3.format(",.1f")(d3.sum(data, function(d){return d.value})));
+
+        arc = d3.svg.arc()
+            .innerRadius(innerRadius)
+            .outerRadius(radius);
+
+        var arcs = groups.selectAll('path')
+            .data((pieData = pieChart(data)), function(d){return d.data.name});
+        arcs.enter().append('path')
+            .attr('class', 'arc');
+
+        arcs.attr('fill', function(d){ return color(d.data.name)})
+            .transition()
+            .duration(duration)
+            .attrTween("d", pieTween)
+            .ease("bounce");
+            function computeTextRotation(d) {
+            var rotation = (d.startAngle + d.endAngle)/2 * 180 / Math.PI - 90;
+            return {
+                global: rotation,
+                correction: rotation > 90 ? 180 : 0
+            };
+        }
+
+        var labels = groups.selectAll("text")
+            .data(pieData);
+        labels.enter().append("text")
+            .attr({"text-anchor": "middle"})
+            .text(function(d) {
+                return d.data.name
+            })
+            .attr("dy", ".35em") // vertical-align
+            .style("font-size", 10);
+        labels
+            .transition()
+            .duration(duration)
+            .attr("transform", function(d) {
+                var r = computeTextRotation(d);
+                return "rotate(" + r.global + ")" + "translate(" + (radius + innerRadius) / 2 + ",0)" + "rotate(" + -r.correction + ")";
+            })
+            .call(endAll, function(){
+                window.requestAnimationFrame(
+                    function(){crm(createPieChart)}
+                )
+            });
+        return pieData;
+    };
+
+    crm(createPieChart);
+   window.setInterval(function(){crm(createPieChart)}, duration + 1100000000)
+</script>
+      </body>
+    </html>

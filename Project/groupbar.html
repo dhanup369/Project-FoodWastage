@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Groupbar</title>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+    crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="d3Style.css">
+
+</head>
+
+<body>
+  <div class="container">
+    
+        <div id="scatter"></div>
+  </div>
+    
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.9.1/d3-tip.js"></script>
+<script>
+var svgWidth = 960;
+
+var svgHeight = 600;
+
+var margin = {
+  top: 20,
+  right: 40,
+  bottom: 80,
+  left: 100
+};
+
+var width = svgWidth - margin.left - margin.right;
+var height = svgHeight - margin.top - margin.bottom;
+var svg = d3
+  .select("#scatter")
+  .append("svg")
+  .attr("width", svgWidth)
+  .attr("height", svgHeight);
+
+// Append an SVG group
+var chartGroup = svg.append("g")
+  .attr("transform", `translate(${margin.left}, ${margin.top})`);
+
+var chosenXAxis = "Retail_loss";
+//var chosenYAxis = "healthcare";
+
+// function used for updating x-scale var upon click on axis label
+function xScale(data, chosenXAxis) {
+  // create scales
+  var xLinearScale = d3.scaleLinear()
+    .domain([d3.min(data, d => d[chosenXAxis]) * 0.5,
+      d3.max(data, d => d[chosenXAxis]) * 1.2
+    ])
+    .range([0, width]);
+
+  return xLinearScale;
+
+}
+
+// function used for updating xAxis var upon click on axis label
+function renderAxes(newXScale, xAxis) {
+  var bottomAxis = d3.axisBottom(newXScale);
+
+  xAxis.transition()
+    .duration(1000)
+    .call(bottomAxis);
+
+  return xAxis;
+}
+
+// function used for updating circles group with a transition to
+// new circles
+function renderCircles(circlesGroup, newXScale, chosenXaxis) {
+
+  circlesGroup.transition()
+    .duration(1000)
+    .attr("cx", d => newXScale(d[chosenXAxis]));
+
+  return circlesGroup;
+}
+
+// function used for updating circles group with new tooltip
+// function updateToolTip(chosenXAxis, circlesGroup) {
+
+//   if (chosenXAxis === "poverty") {
+//     var label = "In Poverty(%)";
+//   }
+//   else if (chosenXAxis === "age") {
+//     var label = "Age(Median)";
+//   }
+//   else
+//     {var label = "House Hold Income(Median)" ;
+// }
+
+//   var toolTip = d3.tip()
+//     .attr("class", "tooltip")
+    
+//     .offset([-50,50])
+//       .html(function(d) {
+//       return (`${d.state}<br>${label} ${d[chosenXAxis]}`);
+//     });
+
+//   circlesGroup.call(toolTip);
+
+//   circlesGroup.on("mouseover", function(data) {
+//     toolTip.show(data);
+//   })
+//     // onmouseout event
+//     .on("mouseout", function(data, index) {
+//       toolTip.hide(data);
+//     });
+
+//   return circlesGroup;
+// }
+
+d3.csv("foodcategoryloss.csv").then(function(data) {
+  console.log(data);
+    
+    
+    data.forEach(function(data1) {
+
+    data1.Retail_loss = data1.Retail_loss;
+    data1.Consumer_loss = data1.Consumer_loss;
+    data1.Total = data1.Total;
+   
+  });
+
+// xLinearScale function above csv import
+  var xLinearScale = xScale(data, chosenXAxis);
+
+
+
+
+  var yLinearScale = d3.scaleLinear()
+    .domain([0, d3.max(data, d => d.Category)])
+    .range([height, 0]);
+
+  // Create initial axis functions
+  var bottomAxis = d3.axisBottom(xLinearScale);
+  var leftAxis = d3.axisLeft(yLinearScale);
+
+  // append x axis
+  var xAxis = chartGroup.append("g")
+    .classed("x-axis", true)
+    .attr("transform", `translate(0, ${height})`)
+    .call(bottomAxis);
+
+  // append y axis
+  chartGroup.append("g")
+    .call(leftAxis);
+
+
+  // append initial circles
+  var circlesGroup = chartGroup.selectAll("circle")
+    .data(data)
+    .enter()
+    .append("circle")
+    .attr("cx", d => xLinearScale(d[chosenXAxis]))
+    .attr("cy", d => yLinearScale(d.Category))
+    .attr("r", 20)
+    .attr("fill", "blue")
+    .attr("opacity", ".5");
+    
+
+  // Create group for  2 x- axis labels
+  var labelsGroup = chartGroup.append("g")
+    .attr("transform", `translate(${width / 2}, ${height +20})`);
+
+  var Retaillabel = labelsGroup.append("text")
+    .attr("x", 0)
+    .attr("y", 20)
+    .attr("value", "Retail_loss") // value to grab for event listener
+    .classed("active", true)
+    .text("Retail_loss(%)");
+
+  var Consumerlabel = labelsGroup.append("text")
+    .attr("x", -100)
+    .attr("y", 40)
+    .attr("value", "Consumer_loss") // value to grab for event listener
+    .classed("inactive1", true)
+    .text("Consumer_loss(%)");
+
+  var Totallabel = labelsGroup.append("text")
+    .attr("x", -50)
+    .attr("y", 60)
+    .attr("value", "Total") // value to grab for event listener
+    .classed("inactive2", true)
+    .text("Total_loss(%)");
+
+
+
+
+
+  
+  chartGroup.append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("y", 0 - margin.left)
+    .attr("x", 0 - (height / 2))
+    .attr("dy", "1em")
+    .classed("axis-text", true)
+    .text("Category");
+
+  // updateToolTip function above csv import
+  var circlesGroup = updateToolTip(chosenXAxis, circlesGroup);
+
+  // x axis labels event listener
+  labelsGroup.selectAll("text")
+    .on("click", function() {
+      // get value of selection
+      var value = d3.select(this).attr("value");
+      if (value !== chosenXAxis) {
+
+        // replaces chosenXAxis with value
+        chosenXAxis = value;
+
+        // console.log(chosenXAxis)
+
+        // functions here found above csv import
+        // updates x scale for new data
+        xLinearScale = xScale(data, chosenXAxis);
+
+        // updates x axis with transition
+        xAxis = renderAxes(xLinearScale, xAxis);
+
+        // updates circles with new x values
+        circlesGroup = renderCircles(circlesGroup, xLinearScale, chosenXAxis);
+
+        // updates tooltips with new info
+        circlesGroup = updateToolTip(chosenXAxis, circlesGroup);
+
+        // changes classes to change bold text
+        if (chosenXAxis === "Retail_loss") {
+          Retaillabel
+            .classed("active", true)
+            .classed("inactive", false);
+          Consumerlabel
+            .classed("active", false)
+            .classed("inactive", true);
+          Totallabel
+            .classed("active", false)
+            .classed("inactive", true);
+
+        }
+        else if (chosenXAxis === "Consumer_loss"){
+          Retaillabel
+            .classed("active", false)
+            .classed("inactive", true);
+          Consumerlabel
+            .classed("active", true)
+            .classed("inactive", false);
+          Totallabel
+            .classed("active", false)
+            .classed("inactive", true);
+
+        }
+      else{
+        Retaillabel
+            .classed("active", false)
+            .classed("inactive", true);
+          Consumerlabel
+            .classed("active", false)
+            .classed("inactive", true);
+          Totallabel
+            .classed("active", true)
+            .classed("inactive", false);
+
+      }
+    }
+      
+    });
+});
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
